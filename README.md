@@ -1,31 +1,44 @@
-# TwitterAgent v2.0.0 - Enhanced Autonomous System
+# TwitterAgent v2.1.0 - Enhanced Autonomous System
 
-> **The most advanced autonomous Twitter management system with A/B testing, influencer detection, and contingency control.**
+> **The most advanced autonomous Twitter management system with AI content generation, media creation, A/B testing, and contingency control.**
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/neonhub/twitter-agent-v2)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/Lucas123-creator/Neon.twitteragent)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 
 ## 🚀 Features
 
 ### Core Capabilities
-- **🤖 Autonomous Twitter Management** - AI-powered tweet generation and posting
-- **🧪 A/B Testing System** - Multi-variant testing with engagement scoring
-- **👑 Influencer Detection** - Real-time identification of high-priority mentions
-- **🛡️ Contingency Control** - Emergency pause/resume and safety systems
-- **📡 Real-time Stream Listening** - Live mention tracking and response
-- **🔐 OAuth 2.0 Authentication** - Secure token management and refresh
-- **🛡️ Brand Safety** - Content moderation and filtering
-- **🎨 Media Generation** - AI-powered visual content creation
-- **📊 Metrics Sync** - Performance tracking and vector learning
-- **🎭 Persona Management** - Brand voice and context awareness
+
+* **🤖 Autonomous Twitter Management** - AI-powered tweet generation and posting
+* **📝 Content Scene Parsing** - Intelligent content breakdown into tweetable scenes
+* **🎨 AI Media Generation** - DALL-E 3 images and Veo 3 videos for scenes
+* **🧪 A/B Testing System** - Multi-variant testing with engagement scoring
+* **👑 Influencer Detection** - Real-time identification of high-priority mentions
+* **🛡️ Contingency Control** - Emergency pause/resume and safety systems
+* **📡 Real-time Stream Listening** - Live mention tracking and response
+* **🔐 OAuth 2.0 Authentication** - Secure token management and refresh
+* **🛡️ Brand Safety** - Content moderation and filtering
+* **📊 Metrics Sync** - Performance tracking and vector learning
+* **🎭 Persona Management** - Brand voice and context awareness
+
+### Enhanced Content Creation (v2.1.0)
+
+* **📖 Scene Parser** - Parse long-form content into engaging tweetable scenes
+* **🖼️ Image Generation** - Create custom images for each scene using DALL-E 3
+* **🎬 Video Generation** - Generate short videos using Veo 3 AI
+* **📊 Content Analysis** - Get insights and recommendations for content strategy
+* **⏰ Smart Scheduling** - Optimize posting times based on content analysis
+* **🎯 Engagement Optimization** - AI-powered hashtags and call-to-actions
+* **🔄 Full Pipeline** - End-to-end content creation and posting workflow
 
 ### Advanced Systems
-- **Vector Learning** - Embedding-based content optimization
-- **Scheduling Engine** - Intelligent tweet timing and automation
-- **Context Awareness** - Campaign-specific persona management
-- **Performance Analytics** - Engagement scoring and insights
-- **Safety Auditing** - Comprehensive content safety checks
+
+* **Vector Learning** - Embedding-based content optimization
+* **Scheduling Engine** - Intelligent tweet timing and automation
+* **Context Awareness** - Campaign-specific persona management
+* **Performance Analytics** - Engagement scoring and insights
+* **Safety Auditing** - Comprehensive content safety checks
 
 ## 📦 Installation
 
@@ -34,9 +47,11 @@ npm install @neon/twitter-agent-v2
 ```
 
 ### Prerequisites
-- Node.js >= 18.0.0
-- Twitter API v2 credentials
-- OpenAI API key (for AI features)
+
+* Node.js >= 18.0.0
+* Twitter API v2 credentials
+* OpenAI API key (for AI features)
+* FAL API key (for video generation - optional)
 
 ## 🔧 Quick Start
 
@@ -55,60 +70,81 @@ const response = await agent.postTweet(tweet);
 console.log(`Posted tweet: ${response.tweetId}`);
 ```
 
-### 2. A/B Testing
+### 2. Content Scene Parsing
 
 ```typescript
-import { runABTest } from '@neon/twitter-agent-v2';
+import { SceneParser } from '@neon/twitter-agent-v2';
 
-const variants = [
-  { text: 'Check out our new product!', hashtags: ['#innovation'] },
-  { text: 'Discover what\'s new today', hashtags: ['#discovery'] },
-  { text: 'Exciting news ahead!', hashtags: ['#excitement'] }
-];
+const parser = new SceneParser(process.env.OPENAI_API_KEY);
 
-// Run A/B test with 2-hour evaluation period
-const winner = await runABTest(variants, 'campaign-123', {
-  evaluationHours: 2,
-  spacingMinutes: 30
+// Parse long-form content into scenes
+const result = await parser.parseScenes(content, {
+  maxScenes: 10,
+  targetPlatform: 'twitter',
+  contentType: 'story',
+  brandVoice: 'professional'
 });
 
-console.log(`Winner: ${winner.text}`);
+console.log(`Parsed ${result.scenes.length} scenes`);
+console.log(`Estimated tweets: ${result.metadata?.estimatedTweets}`);
 ```
 
-### 3. Influencer Detection
+### 3. Media Generation
 
 ```typescript
-import { 
-  startTwitterStreamListener, 
-  getInfluencerMentions 
-} from '@neon/twitter-agent-v2';
+import { MediaGenerator } from '@neon/twitter-agent-v2';
 
-// Start listening for mentions
-await startTwitterStreamListener();
+const mediaGenerator = new MediaGenerator(
+  process.env.OPENAI_API_KEY,
+  process.env.FAL_KEY
+);
 
-// Get high-priority mentions (10K+ followers or verified)
-const influencers = await getInfluencerMentions();
-console.log(`Found ${influencers.length} influencer mentions`);
+// Generate images for scenes
+const images = await mediaGenerator.generateBatchMedia(scenes, 'image', {
+  quality: 'standard',
+  aspectRatio: '16:9',
+  style: 'cinematic'
+});
+
+console.log(`Generated ${images.length} images`);
 ```
 
-### 4. Contingency Control
+### 4. Full Content Pipeline
 
 ```typescript
-import { 
-  pauseAgent, 
-  resumeAgent, 
-  isAgentPaused 
-} from '@neon/twitter-agent-v2';
+import { ContentPipeline } from '@neon/twitter-agent-v2';
 
-// Pause agent for maintenance
-await pauseAgent('TwitterAgent', 'Scheduled maintenance');
+const pipeline = new ContentPipeline({
+  openaiKey: process.env.OPENAI_API_KEY,
+  falKey: process.env.FAL_KEY,
+  twitterAgent: agent
+});
 
-// Check status
-const paused = await isAgentPaused('TwitterAgent');
-console.log(`Agent paused: ${paused}`);
+// Run complete pipeline: parse → generate media → post
+await pipeline.run(content, {
+  mediaType: 'both',
+  postToTwitter: true,
+  schedule: true
+});
+```
 
-// Resume when ready
-await resumeAgent('TwitterAgent');
+### 5. CLI Usage
+
+```bash
+# Parse content into scenes
+npx neon-content-generator parse content.txt -o scenes.json
+
+# Generate media for scenes
+npx neon-content-generator generate-media scenes.json -t image
+
+# Post to Twitter
+npx neon-content-generator post scenes.json --dry-run
+
+# Run full pipeline
+npx neon-content-generator pipeline content.txt -m both -p
+
+# Analyze content
+npx neon-content-generator analyze content.txt --detailed
 ```
 
 ## 🏗️ Architecture
@@ -120,6 +156,12 @@ twitter-agent-v2/
 │   │   ├── TwitterAgent.ts      # Main Twitter agent
 │   │   ├── twitterABTest.ts     # A/B testing system
 │   │   └── contextManager.ts    # Persona & context management
+│   ├── pipeline/         # Content creation pipeline
+│   │   ├── scene-parser.ts      # Content scene parsing
+│   │   ├── media-generator.ts   # Image/video generation
+│   │   └── content-pipeline.ts  # Full pipeline orchestration
+│   ├── cli/              # Command-line interface
+│   │   └── content-generator.ts # CLI tools
 │   ├── utils/            # Utility systems
 │   │   ├── agentControl.ts      # Contingency control
 │   │   ├── filters.ts           # Brand safety & moderation
@@ -152,6 +194,9 @@ TWITTER_ACCESS_TOKEN_SECRET=your_access_token_secret
 # OpenAI (for AI features)
 OPENAI_API_KEY=your_openai_key
 
+# FAL (for video generation)
+FAL_KEY=your_fal_key
+
 # Brand configuration
 TWITTER_BRAND_HANDLE=@YourBrand
 ```
@@ -166,26 +211,35 @@ const config = {
   enableAutoResponses: true,
   enableTrendScanning: true,
   enableContentOptimization: true,
-  rateLimitDelay: 1000
+  rateLimitDelay: 1000,
+  mediaGeneration: {
+    enableImages: true,
+    enableVideos: true,
+    quality: 'standard',
+    aspectRatio: '16:9'
+  }
 };
 
 const agent = new TwitterAgent('my-agent', 'My Agent', config);
 ```
 
-## 📊 A/B Testing Configuration
+## 📊 Content Analysis
 
-```typescript
-import { runABTest } from '@neon/twitter-agent-v2';
+### Scene Parsing Features
 
-const config = {
-  maxVariants: 3,           // Maximum variants to test
-  spacingMinutes: 30,       // Time between posts
-  evaluationHours: 2,       // Evaluation period
-  engagementThreshold: 0.02 // 2% engagement rate threshold
-};
+- **Intelligent Content Breakdown** - Parse long articles into tweetable scenes
+- **Platform Optimization** - Tailored for Twitter, LinkedIn, or Instagram
+- **Brand Voice Adaptation** - Maintain consistent brand personality
+- **Engagement Strategy** - AI-powered hashtags and call-to-actions
+- **Timing Recommendations** - Optimal posting schedule suggestions
 
-const winner = await runABTest(variants, 'campaign-123', config);
-```
+### Media Generation Features
+
+- **DALL-E 3 Integration** - High-quality image generation
+- **Veo 3 Video Creation** - Short-form video content
+- **Style Customization** - Cinematic, modern, vintage, minimalist
+- **Brand Color Integration** - Consistent visual identity
+- **Cost Tracking** - Monitor generation expenses
 
 ## 🛡️ Safety & Control
 
@@ -203,7 +257,6 @@ await emergencyStopAll('System maintenance');
 // Get agent status
 const status = await agentControl.getAgentStatusSummary();
 console.log(status);
-// { TwitterAgent: false, ContentAgent: false, ... }
 ```
 
 ### Brand Safety
@@ -235,69 +288,20 @@ const performance = await metricsSync.fetchTweetPerformance('campaign-123', 30);
 const insights = await metricsSync.getOptimizationInsights('campaign-123', 'tweet text');
 ```
 
-### Vector Learning
+### Content Analytics
 
 ```typescript
-import { metricsSync } from '@neon/twitter-agent-v2';
+import { ContentAnalyzer } from '@neon/twitter-agent-v2';
 
-// Vectorize tweet performance for similarity search
-const vectorized = await metricsSync.vectorizeTweetPerformance(performanceRecord);
-```
-
-## 🎨 Media Generation
-
-```typescript
-import { mediaGenerator } from '@neon/twitter-agent-v2';
-
-const request = {
-  type: 'meme',
-  content: 'Your meme text',
-  style: 'modern',
-  template: 'success'
-};
-
-const media = await mediaGenerator.generateMedia(request);
-console.log(`Generated: ${media.url}`);
-```
-
-## 🔄 Real-time Stream Listening
-
-```typescript
-import { 
-  startTwitterStreamListener,
-  streamEvents 
-} from '@neon/twitter-agent-v2';
-
-// Start listener
-await startTwitterStreamListener();
-
-// Listen for events
-streamEvents.on('mention', (mention) => {
-  console.log(`New mention from ${mention.userHandle}`);
+const analyzer = new ContentAnalyzer();
+const analysis = await analyzer.analyzeContent(content, {
+  detailed: true,
+  includeRecommendations: true
 });
 
-streamEvents.on('influencer', (influencer) => {
-  console.log(`Influencer mention: ${influencer.followerCount} followers`);
-});
-```
-
-## 🔐 OAuth Authentication
-
-```typescript
-import { 
-  twitterOAuth, 
-  getAuthenticatedClient 
-} from '@neon/twitter-agent-v2';
-
-// Initialize OAuth
-const oauth = new twitterOAuth({
-  clientId: 'your_client_id',
-  clientSecret: 'your_client_secret',
-  redirectUri: 'your_redirect_uri'
-});
-
-// Get authenticated client
-const client = await getAuthenticatedClient('user_id');
+console.log('Content themes:', analysis.themes);
+console.log('Engagement potential:', analysis.engagementScore);
+console.log('Timing recommendations:', analysis.timingRecommendations);
 ```
 
 ## 🧪 Testing
@@ -310,38 +314,38 @@ npm test
 npm run test:coverage
 
 # Run specific test
-npm test -- --testNamePattern="A/B Testing"
+npm test -- --testNamePattern="Content Generation"
 ```
 
 ## 📝 API Reference
 
 ### Core Classes
 
-- **TwitterAgent** - Main Twitter automation agent
-- **TwitterABTest** - A/B testing system
-- **AgentControl** - Contingency control system
-- **MetricsSync** - Performance tracking and analytics
-- **TwitterOAuth** - OAuth 2.0 authentication
+* **TwitterAgent** - Main Twitter automation agent
+* **SceneParser** - Content scene parsing and analysis
+* **MediaGenerator** - AI-powered image and video generation
+* **ContentPipeline** - End-to-end content creation workflow
+* **TwitterABTest** - A/B testing system
+* **AgentControl** - Contingency control system
+* **MetricsSync** - Performance tracking and analytics
+* **TwitterOAuth** - OAuth 2.0 authentication
 
 ### Key Methods
 
-#### TwitterAgent
-- `generateTweet(campaignId)` - Generate AI-powered tweet
-- `postTweet(content)` - Post tweet to Twitter
-- `respondToMention(id, context)` - Respond to mention
-- `scanTrends()` - Analyze trending topics
-- `optimizeContent(previousResults)` - Optimize based on performance
+#### Content Generation
 
-#### A/B Testing
-- `runABTest(variants, campaignId, config)` - Run A/B test
-- `getTestResults(testId)` - Get test results
-- `cancelTest(testId)` - Cancel running test
+* `parseScenes(content, options)` - Parse content into scenes
+* `generateSceneImage(scene, options)` - Generate image for scene
+* `generateSceneVideo(scene, options)` - Generate video for scene
+* `runPipeline(content, options)` - Complete content pipeline
 
-#### Contingency Control
-- `pauseAgent(name, reason)` - Pause agent
-- `resumeAgent(name)` - Resume agent
-- `emergencyStopAll(reason)` - Stop all agents
-- `isAgentPaused(name)` - Check pause status
+#### Twitter Management
+
+* `generateTweet(campaignId)` - Generate AI-powered tweet
+* `postTweet(content)` - Post tweet to Twitter
+* `respondToMention(id, context)` - Respond to mention
+* `scanTrends()` - Analyze trending topics
+* `optimizeContent(previousResults)` - Optimize based on performance
 
 ## 🤝 Contributing
 
@@ -357,25 +361,40 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- **Documentation**: [GitHub Wiki](https://github.com/neonhub/twitter-agent-v2/wiki)
-- **Issues**: [GitHub Issues](https://github.com/neonhub/twitter-agent-v2/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/neonhub/twitter-agent-v2/discussions)
+* **Documentation**: [GitHub Wiki](https://github.com/Lucas123-creator/Neon.twitteragent/wiki)
+* **Issues**: [GitHub Issues](https://github.com/Lucas123-creator/Neon.twitteragent/issues)
+* **Discussions**: [GitHub Discussions](https://github.com/Lucas123-creator/Neon.twitteragent/discussions)
 
 ## 🔄 Changelog
 
+### v2.1.0
+
+* ✨ **NEW**: Content Scene Parsing System
+* ✨ **NEW**: AI Media Generation (DALL-E 3 + Veo 3)
+* ✨ **NEW**: Full Content Pipeline
+* ✨ **NEW**: CLI Interface for Content Generation
+* ✨ **NEW**: Content Analysis and Insights
+* ✨ **NEW**: Smart Scheduling Recommendations
+* ✨ **NEW**: Brand Color Integration
+* ✨ **NEW**: Cost Tracking for Media Generation
+* 🛡️ **ENHANCED**: Brand Safety with Media Content
+* 📊 **ENHANCED**: Content Performance Analytics
+* 🔧 **IMPROVED**: Type Safety and Error Handling
+* 🚀 **IMPROVED**: Performance and Caching
+
 ### v2.0.0
-- ✨ **NEW**: A/B Testing System
-- ✨ **NEW**: Influencer Detection
-- ✨ **NEW**: Contingency Control
-- ✨ **NEW**: Real-time Stream Listening
-- ✨ **NEW**: OAuth 2.0 Authentication
-- ✨ **NEW**: Media Generation
-- ✨ **NEW**: Vector Learning
-- ✨ **NEW**: Persona Management
-- 🛡️ **ENHANCED**: Brand Safety
-- 📊 **ENHANCED**: Metrics & Analytics
-- 🔧 **IMPROVED**: Type Safety
-- 🚀 **IMPROVED**: Performance
+
+* ✨ **NEW**: A/B Testing System
+* ✨ **NEW**: Influencer Detection
+* ✨ **NEW**: Contingency Control
+* ✨ **NEW**: Real-time Stream Listening
+* ✨ **NEW**: OAuth 2.0 Authentication
+* ✨ **NEW**: Vector Learning
+* ✨ **NEW**: Persona Management
+* 🛡️ **ENHANCED**: Brand Safety
+* 📊 **ENHANCED**: Metrics & Analytics
+* 🔧 **IMPROVED**: Type Safety
+* 🚀 **IMPROVED**: Performance
 
 ---
 
